@@ -25,6 +25,12 @@ public class Snake implements InputProcessor {
 		body = new ArrayList<Sprite>();
 		
 		bodyTexture = new Texture("body.png");
+		for(int i = 0; i < 5;i++){
+			body.add(new Sprite(bodyTexture));
+			body.get(i).setPosition(800/2-((i)*20),480/2);
+		}
+		
+		
 		
 		moveAmount = bodyTexture.getWidth();
 		
@@ -33,7 +39,7 @@ public class Snake implements InputProcessor {
 	
 	public void update() {
 		for (int i = body.size() - 1; i > 0; i--) {
-			body.set(i, body.get(i - 1));
+			body.get(i).setPosition(body.get(i-1).getX(), body.get(i - 1).getY());
 		}		
 		switch (currentDirection) {
 		case UP:
