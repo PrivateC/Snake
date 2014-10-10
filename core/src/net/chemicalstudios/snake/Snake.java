@@ -1,48 +1,79 @@
 package net.chemicalstudios.snake;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
+
 
 public class Snake implements InputProcessor {
-	public enum direction {
+	ArrayList<Sprite> body;
+	
+	private Texture bodyTexture;
+	
+	enum Direction {
 		UP, DOWN, LEFT, RIGHT;
 	}
 	
-	private ArrayList<Sprite> body;
-	private Texture bodyTexture;
-	private Sprite bodySprite;
-	private Vector2 location;
-	private int jumpAmount;
-	private Queue<direction> movementDirection;
+	Direction currentDirection = Direction.RIGHT;
+	
+	private int moveAmount;
 	
 	public Snake() {
 		body = new ArrayList<Sprite>();
 		
-		bodyTexture = new Texture("sprites/body.png");
-		bodySprite = new Sprite(bodyTexture);
-
-		jumpAmount = (int) bodySprite.getWidth();
+		bodyTexture = new Texture("body.png");
 		
-		body.add(bodySprite);
+		moveAmount = bodyTexture.getWidth();
 		
-		location = new Vector2(0, 0);
-		
-		movementDirection = new ArrayDeque<direction>();
+		body.add(new Sprite(bodyTexture));
 	}
 	
 	public void update() {
-		location.x += jumpAmount;
-		location.y += jumpAmount;
+		for (int i = body.size() - 1; i > 0; i--) {
+			body.set(i, body.get(i - 1));
+		}		
+		switch (currentDirection) {
+		case UP:
+			body.get(0).translateY(moveAmount);
+			break;
+		case DOWN:
+			body.get(0).translateY(-moveAmount);
+			break;
+		case LEFT:
+			body.get(0).translateX(-moveAmount);
+			break;
+		case RIGHT:
+			body.get(0).translateX(moveAmount);
+			break;
+		}
+		
 	}
 	
-	public Vector2 getLocation() {
-		return location;
+	public void grow() {
+		body.add(new Sprite(bodyTexture));
+		body.get(body.size() - 1).setPosition(body.get(body.size() - 2).getX(), body.get(body.size() - 2).getY());
+		
+		switch (currentDirection) {
+		case UP:
+			body.get(body.size() - 1).translateY(-moveAmount);
+			break;
+		case DOWN:
+			body.get(body.size() - 1).translateY(moveAmount);
+			break;
+		case LEFT:
+			body.get(body.size() - 1).translateX(moveAmount);
+			break;
+		case RIGHT:
+			body.get(body.size() - 1).translateX(-moveAmount);
+			break;
+		}
+	}
+	
+	public ArrayList<Sprite> getSprites() {
+		return body;
 	}
 
 	@Override
@@ -53,7 +84,28 @@ public class Snake implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
+		switch (keycode) {
+		case Keys.A:
+		case Keys.LEFT:
+			currentDirection = Direction.LEFT;
+			break;
+		case Keys.D:
+		case Keys.RIGHT:
+			currentDirection = Direction.RIGHT;
+			break;
+		case Keys.W:
+		case Keys.UP:
+			currentDirection = Direction.UP;
+			break;
+		case Keys.S:
+		case Keys.DOWN:
+			currentDirection = Direction.DOWN;
+			break;
+		case Keys.SPACE:
+			grow();
+			break;
+		}
+		
 		return false;
 	}
 
