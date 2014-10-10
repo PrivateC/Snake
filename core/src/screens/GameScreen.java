@@ -21,9 +21,6 @@ public class GameScreen implements Screen {
 		PLAYING, PAUSE, OVER;
 	}
 	
-	private int score;
-	private int length;
-	
 	public GameScreen(SnakeGame game) {
 		this.game = game;
 	}
@@ -40,7 +37,7 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 1, 1, 0);
+		Gdx.gl.glClearColor(0.2f, 0.5f, 0.2f, 0);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
