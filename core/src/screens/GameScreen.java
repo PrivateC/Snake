@@ -1,17 +1,13 @@
 package screens;
 
-import java.util.ArrayList;
-
+import net.chemicalstudios.snake.Food;
 import net.chemicalstudios.snake.Snake;
 import net.chemicalstudios.snake.SnakeGame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
 
@@ -19,6 +15,7 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 	
 	private Snake snake;
+	private Food food;
 	
 	public GameScreen(SnakeGame game) {
 		this.game = game;
@@ -29,6 +26,7 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 		snake = new Snake();
 		Gdx.input.setInputProcessor(snake);
+		food = new Food();
 	}
 	
 	int timer = 0;
@@ -42,11 +40,13 @@ public class GameScreen implements Screen {
 		for (int i = 0; i < snake.getSprites().size(); i++) {
 			snake.getSprites().get(i).draw(batch);
 		}
+		
+		batch.draw(food.getTexture(), food.getX(), food.getY());
 		batch.end();
 		
-		if (timer >= 5) {
+		if (timer >= 4) {
 			timer = 0;
-			snake.update();
+			snake.update(food);
 		}
 		timer++;
 	}
