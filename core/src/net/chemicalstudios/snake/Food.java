@@ -15,37 +15,28 @@ public class Food {
 	int width, height;
 	Random rng;
 	
+	ArrayList<Vector2> possibleLocations;
+	
 	public Food() {
-		location = new Vector2(-50, 50);
+		location = new Vector2();
 		food = new Texture("food.png");
 		width = food.getWidth();
 		height = food.getHeight();
 		rng = new Random();
+		
+		possibleLocations = new ArrayList<Vector2>();
+		for (int x = 0; x < Gdx.graphics.getWidth(); x += food.getWidth()) {
+			for (int y = 0; y < Gdx.graphics.getHeight(); y += food.getHeight()) {
+				possibleLocations.add(new Vector2(x, y));
+			}
+		}
+		int newLocation = rng.nextInt(possibleLocations.size());
+		location = possibleLocations.get(newLocation);
 	}
 	
 	public void generate(ArrayList<Sprite> body) {
-		int newX = rng.nextInt(Gdx.graphics.getWidth());
-		int newY = rng.nextInt(Gdx.graphics.getHeight());
-		boolean done = true;
-		
-			if (newX <= body.get(0).getX() + body.get(0).getWidth() && newX + width >= body.get(0).getX()) {
-				if (newY <= body.get(0).getY() + body.get(0).getHeight() && newX + width >= body.get(0).getY()) {
-					done = false;
-					generate(body);
-				}	
-			}
-		if (done) {
-			location.set(new Vector2(newX, newY));	
-			System.out.println(location);
-		}
-	}
-	
-	public void generate() {
-		int newX = rng.nextInt(Gdx.graphics.getWidth());
-		int newY = rng.nextInt(Gdx.graphics.getHeight());
-		
-		location.set(new Vector2(newX, newY));
-		System.out.println(location);
+		int newLocation = rng.nextInt(possibleLocations.size());
+		location = possibleLocations.get(newLocation);
 	}
 	
 	public int getX() {
@@ -63,4 +54,12 @@ public class Food {
 	public Texture getTexture() {
 		return food;
 	}
+	
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
 }
+

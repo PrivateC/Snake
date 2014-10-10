@@ -17,6 +17,13 @@ public class GameScreen implements Screen {
 	private Snake snake;
 	private Food food;
 	
+	public enum GameState {
+		PLAYING, PAUSE, OVER;
+	}
+	
+	private int score;
+	private int length;
+	
 	public GameScreen(SnakeGame game) {
 		this.game = game;
 	}
@@ -37,11 +44,11 @@ public class GameScreen implements Screen {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		batch.draw(food.getTexture(), food.getX(), food.getY());
 		for (int i = 0; i < snake.getSprites().size(); i++) {
 			snake.getSprites().get(i).draw(batch);
 		}
 		
-		batch.draw(food.getTexture(), food.getX(), food.getY());
 		batch.end();
 		
 		if (timer >= 4) {

@@ -46,9 +46,11 @@ public class Snake implements InputProcessor {
 			body.get(i).setPosition(body.get(i-1).getX(), body.get(i - 1).getY());
 			
 		}		
-		if (body.get(0).getBoundingRectangle().overlaps(food.getBoundingRectangle())) {
-			this.grow();
-			food.generate(body);
+		if (body.get(0).getX() < food.getX() + food.getWidth() && body.get(0).getX() + body.get(0).getWidth() > food.getX()) {
+			if (body.get(0).getY() < food.getY() + food.getHeight() && body.get(0).getY() + body.get(0).getHeight() > food.getY()) {
+				food.generate(body);
+				grow();
+			}
 		}
 		switch (currentDirection) {
 		case UP:
