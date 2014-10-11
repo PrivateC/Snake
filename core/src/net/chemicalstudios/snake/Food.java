@@ -62,4 +62,8 @@ public class Food {
 	public int getHeight() {
 		return height;
 	}
+	
+	public void dispose() {
+		food.dispose();
+	}
 }

@@ -187,4 +187,8 @@ public class Snake implements InputProcessor {
 	public boolean scrolled(int amount) {
 		return false;
 	}
+	
+	public void dispose() {
+		bodyTexture.dispose();
+	}
 }

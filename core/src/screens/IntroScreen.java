@@ -25,7 +25,7 @@ public class IntroScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClearColor(0.2f, 0.5f, 0.2f, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		if (alpha > 0) {
@@ -72,7 +72,8 @@ public class IntroScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		batch.dispose();
+		introTexture.dispose();
 	}
 
 }
