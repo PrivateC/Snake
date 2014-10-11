@@ -21,6 +21,8 @@ public class GameScreen implements Screen {
 		PLAYING, PAUSE, OVER;
 	}
 	
+	GameState currentState = GameState.PLAYING;
+	
 	public GameScreen(SnakeGame game) {
 		this.game = game;
 	}
@@ -28,7 +30,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		snake = new Snake();
+		snake = new Snake(this);
 		Gdx.input.setInputProcessor(snake);
 		food = new Food();
 	}
@@ -41,20 +43,35 @@ public class GameScreen implements Screen {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(food.getTexture(), food.getX(), food.getY());
-		for (int i = 0; i < snake.getSprites().size(); i++) {
-			snake.getSprites().get(i).draw(batch);
-		}
 		
+		if (currentState.equals(GameState.PLAYING)) {
+			batch.draw(food.getTexture(), food.getX(), food.getY());
+			for (int i = 0; i < snake.getSprites().size(); i++) {
+				snake.getSprites().get(i).draw(batch);
+			}
+			
+			
+			if (timer >= 4) {
+				timer = 0;
+				snake.update(food);
+			}
+			timer++;
+		} else if (currentState.equals(GameState.PAUSE)) {
+			
+		} else if (currentState.equals(GameState.OVER)) {
+			
+		}
 		batch.end();
-		
-		if (timer >= 4) {
-			timer = 0;
-			snake.update(food);
-		}
-		timer++;
 	}
 
+	public void setState(GameState newState) {
+		currentState = newState;
+	}
+	
+	public GameState getState() {
+		return currentState;
+	}
+	
 	@Override
 	public void resize(int width, int height) {
 		

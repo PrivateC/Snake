@@ -30,6 +30,7 @@ public class Food {
 				possibleLocations.add(new Vector2(x, y));
 			}
 		}
+		System.out.println(possibleLocations.size());
 		int newLocation = rng.nextInt(possibleLocations.size());
 		location = possibleLocations.get(newLocation);
 	}
@@ -62,4 +63,3 @@ public class Food {
 		return height;
 	}
 }
-

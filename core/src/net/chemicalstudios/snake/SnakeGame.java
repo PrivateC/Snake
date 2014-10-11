@@ -1,18 +1,21 @@
 package net.chemicalstudios.snake;
 
 import screens.GameScreen;
+import screens.IntroScreen;
 
 import com.badlogic.gdx.Game;
 
 public class SnakeGame extends Game {
 	
+	IntroScreen introScreen;
 	GameScreen gameScreen;
 	
 	@Override
 	public void create() {
 		
+		introScreen = new IntroScreen(this);
 		gameScreen = new GameScreen(this);
-		this.setScreen(gameScreen);
+		this.setScreen(introScreen);
 	}
 	
 	@Override
